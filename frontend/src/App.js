@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import Routes from './routes';
+import withAuth from './withAuth';
 
 function App() {
   return (
@@ -10,4 +11,4 @@ function App() {
   );
 }
 
-export default App;
+export default withAuth(App);

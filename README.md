@@ -5,19 +5,21 @@
 - SQLite
 - React 16.8.6 by `create-react-app` _(ejected)_
 
-## Install & start
+## Install & build & start
 ```
 $ yarn add global strapi@alpha
-$ cd frontend && yarn install
+$ cd frontend && yarn install && yarn build
 $ cd ../backend && yarn install
 $ strapi start
 ```
 
 Will be started on [localhost:1337](http://localhost:1337/).
 
-## Build
-```
-$ cd frontend && yarn build
-```
+## TODO
+- [x] Redux
+- [ ] socket.io for content updating
+- [ ] Relations: employee / boss
+    [ ] Ability to select the boss for the employee (for the **boss** role only?)
+- [ ] Login form
 
 Will be built to `/backend/public/` as distr folder.

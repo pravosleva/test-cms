@@ -1,8 +1,12 @@
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { compose, withStateHandlers, withHandlers, lifecycle } from 'recompose';
-import { Card, Icon, Avatar } from 'antd';
+import {
+  Card,
+  // Icon,
+  // Avatar
+} from 'antd';
 
 import ArrowBackSVG from '../../components/SVG/ArrowBackSVG';
 
@@ -25,7 +29,7 @@ const Info = compose(
   ),
   withHandlers({
     getInfo: props => async role => {
-      const response = await fetch(`http://localhost:1337/users/${props.match.params.id}`)
+      const response = await fetch(`/users/${props.match.params.id}`)
         .then(res => res.json())
         .catch(err => console.log(err));
 

@@ -19,7 +19,7 @@ const Home = compose(
   ),
   withHandlers({
     getUsersByRole: props => async role => {
-      const response = await fetch('http://localhost:1337/users')
+      const response = await fetch('/users')
         .then(res => res.json())
         .catch(err => console.log(err));
 
