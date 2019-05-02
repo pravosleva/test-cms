@@ -1,12 +1,15 @@
 import React from 'react';
-import { compose, withStateHandlers, withHandlers } from 'recompose';
-import { Button, List, Card, Avatar } from 'antd';
+import { compose, withStateHandlers, withHandlers, lifecycle } from 'recompose';
+import {
+  // Button,
+  List, Card, Avatar,
+} from 'antd';
 import { Link } from 'react-router-dom';
 
 const Home = compose(
   withStateHandlers((
     initialState = {
-      users: []
+      users: null // Will be set as Array
     }) => ({
       users: initialState.users
     }),
@@ -23,9 +26,14 @@ const Home = compose(
         .then(res => res.json())
         .catch(err => console.log(err));
 
-      props.setFieldValue('users', [...response].filter(u => u.companyrole === 'employee'));
+      props.setFieldValue('users', [...response].filter(u => u.companyrole === role));
     }
   }),
+  lifecycle({
+    componentDidMount() {
+      this.props.getUsersByRole('employee');
+    }
+  })
 )(({
   getUsersByRole,
   users
@@ -59,14 +67,7 @@ const Home = compose(
           />
         </Card>
       ) : (
-        <Button
-          type="primary"
-          onClick={() => {
-            getUsersByRole('employee');
-          }}
-        >
-          Получить список сотрудников
-        </Button>
+        <em>Список пуст</em>
       )
     }
   </div>

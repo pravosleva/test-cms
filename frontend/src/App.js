@@ -1,7 +1,11 @@
 import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 
 import Routes from './routes';
-import withAuth from './withAuth';
+import {
+  withMaxWidthContainer,
+  // withAuth,
+} from './containers';
 
 function App() {
   return (
@@ -11,4 +15,7 @@ function App() {
   );
 }
 
-export default withAuth(App);
+export default compose(
+  withMaxWidthContainer,
+  // withAuth,
+)(App);

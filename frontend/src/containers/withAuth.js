@@ -1,19 +1,12 @@
+/* eslint-disable no-useless-escape */
 import React, { Fragment } from 'react';
 import { compose, withHandlers, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import axios from 'axios';
 import { Alert } from 'antd';
 
-import { updateUserInfo } from './actions';
+import { updateUserInfo } from '../actions';
 
-// const FlexWrapper = styled('div')`
-//   min-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// `;
 
 const mapStateToProps = ({ user }) => ({
   user,
@@ -25,6 +18,7 @@ const withAuth = ComposedComponent => compose(
     // Should be refactored...
     getCookieByName: props => name => {
       const matches = document.cookie.match(new RegExp("(?:^|; )" + String(name).replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+
       return matches ? decodeURIComponent(matches[1]) : undefined;
     },
   }),
@@ -92,7 +86,12 @@ const withAuth = ComposedComponent => compose(
             }
           })(props.user.infoResponse.statusCode)}
         </Fragment>
-      ) : <ComposedComponent />
+      ) : null
+    }
+    {
+      props.user.infoResponse && props.user.infoResponse.role
+      ? <ComposedComponent />
+      : null
     }
   </Fragment>
 ));
