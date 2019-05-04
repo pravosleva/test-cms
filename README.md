@@ -19,6 +19,6 @@ Will be started on [localhost:1337](http://localhost:1337/).
 - [x] redux / redux-thunk
 - [ ] socket.io for content updating
 - [ ] Relations: employee / boss | Ability to select the boss for the employee (for the **boss** role only?)
-- [ ] Login form for _withAuth HOC_
+- [x] Login form for _withAuth HOC_ | Will be set to cookie as `jwt`
 
 Will be built to `/backend/public/` as distr folder.

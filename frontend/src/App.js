@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import Routes from './routes';
 import {
   withMaxWidthContainer,
-  // withAuth,
+  withAuth,
 } from './containers';
 
 function App() {
@@ -17,5 +17,5 @@ function App() {
 
 export default compose(
   withMaxWidthContainer,
-  // withAuth,
+  withAuth,
 )(App);
