@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { withCookies } from 'react-cookie';
 
 import { updateUserInfo } from '../../actions/user-info';
-import { updateUsers } from '../../actions/users';
+import { getUsersAndSetToStore } from '../../actions/users';
 
 
 function hasErrors(fieldsError) {
@@ -83,14 +83,7 @@ class HorizontalLoginForm extends React.Component {
         onSubmit={(e) => {
           this.handleSubmit(e)
             .then(async () => {
-              const response = await fetch('/users')
-                .then(res => res.json())
-                .catch(err => console.log(err));
-
-              if (response) {
-                this.props.dispatch(updateUsers(response));
-              }
-
+              this.props.dispatch(getUsersAndSetToStore());
             })
             .catch(err => {
               console.log(err);

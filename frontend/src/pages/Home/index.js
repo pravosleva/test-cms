@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // import { withUsers } from '../../containers';
-import { updateUsers } from '../../actions/users';
+import { getUsersAndSetToStore } from '../../actions/users';
 
 const mapStateToProps = ({ users }) => ({
   users: users.items
@@ -17,16 +17,8 @@ const Home = compose(
   // withUsers,
   connect(mapStateToProps),
   lifecycle({
-    async componentDidMount() {
-      // this.props.getUsersByRole('employee');
-
-      const response = await fetch('/users')
-        .then(res => res.json())
-        .catch(err => console.log(err));
-
-      if (response) {
-        this.props.dispatch(updateUsers(response));
-      }
+    componentDidMount() {
+      this.props.dispatch(getUsersAndSetToStore());
     }
   })
 )(({
@@ -46,14 +38,14 @@ const Home = compose(
             dataSource={[...users].map(u => ({
               id: u.id,
               title: u.username,
-              photo: u.photo ? 'http://localhost:1337' + u.photo.url : 'https://yt3.ggpht.com/a-/AAuE7mA_A0OnIv4b0BsRorlPvNukiDDXIci4iZdGYQ=s900-mo-c-c0xffffffff-rj-k-no',
+              src: u.photo && u.photo.url ? u.photo.url : 'https://yt3.ggpht.com/a-/AAuE7mA_A0OnIv4b0BsRorlPvNukiDDXIci4iZdGYQ=s900-mo-c-c0xffffffff-rj-k-no',
               description: u.companyrole,
               bossInfo: u.bossInfo || null
             }))}
             renderItem={item => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar src={item.photo} />}
+                  avatar={<Avatar src={item.src} />}
                   title={<Link to={`/info/${item.id}`}>{item.title}</Link>}
                   description={
                     <div onClick={() => console.log(item.id)}>

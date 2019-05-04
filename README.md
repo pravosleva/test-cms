@@ -24,7 +24,6 @@ Should be started on [localhost:1337](http://localhost:1337/).
 
 ## TODO: frontend
 - [x] redux / redux-thunk
-- [ ] All requests should be moved to actions
 - [ ] Relations: **employee -> boss** | Ability to select the boss for the employee (for the **boss** role only?)
 - [x] Login form for _withAuth HOC_ | Token will be set to cookies as `jwt`
 - [ ] socket.io for content updating
