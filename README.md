@@ -13,18 +13,17 @@ $ cd ../backend && yarn install
 $ strapi start
 ```
 
-Will be started on [localhost:1337](http://localhost:1337/).
+Should be built to `/backend/public/` as distr folder.
+Should be started on [localhost:1337](http://localhost:1337/).
 
 ## TODO: backend
 - [x] CRUD
-- [x] `User.companyrole` _as string (employee|boss), employee by default_
+- [x] `User.companyrole` as string `employee|boss`, _employee by default_
 - [x] `User.bossInfo` _as json (will be used for employee role)_
 - [ ] socket.io for content updating
 
 ## TODO: frontend
 - [x] redux / redux-thunk
+- [ ] Relations: **employee -> boss** | Ability to select the boss for the employee (for the **boss** role only?)
+- [x] Login form for _withAuth HOC_ | Token will be set to cookies as `jwt`
 - [ ] socket.io for content updating
-- [ ] Relations: employee / boss | Ability to select the boss for the employee (for the **boss** role only?)
-- [x] Login form for _withAuth HOC_ | Will be set to cookie as `jwt`
-
-Will be built to `/backend/public/` as distr folder.
