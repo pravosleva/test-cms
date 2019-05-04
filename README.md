@@ -15,7 +15,13 @@ $ strapi start
 
 Will be started on [localhost:1337](http://localhost:1337/).
 
-## TODO
+## TODO: backend
+- [x] CRUD
+- [x] `User.companyrole` _as string (employee|boss), employee by default_
+- [x] `User.bossInfo` _as json (will be used for employee role)_
+- [ ] socket.io for content updating
+
+## TODO: frontend
 - [x] redux / redux-thunk
 - [ ] socket.io for content updating
 - [ ] Relations: employee / boss | Ability to select the boss for the employee (for the **boss** role only?)
