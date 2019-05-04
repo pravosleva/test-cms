@@ -7,7 +7,8 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withCookies } from 'react-cookie';
 
-import { updateUserInfo } from '../../actions';
+import { updateUserInfo } from '../../actions/user-info';
+import { updateUsers } from '../../actions/users';
 
 
 function hasErrors(fieldsError) {
@@ -20,7 +21,7 @@ class HorizontalLoginForm extends React.Component {
     this.props.form.validateFields();
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     this.props.form.validateFields(async (err, { userName, password }) => {
       if (!err) {
@@ -52,9 +53,18 @@ class HorizontalLoginForm extends React.Component {
           this.props.dispatch(updateUserInfo(response));
         }
         if (response && response.jwt) {
-          this.props.cookies.set('jwt', response.jwt, { maxAge: 60000 });
+          this.props.cookies.set(
+            'jwt',
+            response.jwt,
+            {
+              path: '/',
+              expires: new Date(Date.now() + 3600000 * 0.5), // 3600000 * 24 * 1 - One day
+            },
+          );
+          return Promise.resolve();
         }
       }
+      return Promise.reject();
     });
   }
 
@@ -68,7 +78,25 @@ class HorizontalLoginForm extends React.Component {
     const passwordError = isFieldTouched('password') && getFieldError('password');
 
     return (
-      <Form layout="inline" onSubmit={this.handleSubmit}>
+      <Form
+        layout="inline"
+        onSubmit={(e) => {
+          this.handleSubmit(e)
+            .then(async () => {
+              const response = await fetch('/users')
+                .then(res => res.json())
+                .catch(err => console.log(err));
+
+              if (response) {
+                this.props.dispatch(updateUsers(response));
+              }
+
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }}
+      >
         <Form.Item
           validateStatus={userNameError ? 'error' : ''}
           help={userNameError || ''}

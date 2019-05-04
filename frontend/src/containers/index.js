@@ -1,7 +1,9 @@
 import withAuth from './withAuth';
 import withMaxWidthContainer from './withMaxWidthContainer';
+// import withUsers from './withUsers';
 
 export {
   withAuth,
-  withMaxWidthContainer
+  withMaxWidthContainer,
+  // withUsers, // Removed to store...
 };

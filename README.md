@@ -1,7 +1,7 @@
 # TEST CMS
 
 ## Stack
-- Strapi 3.0.0-alpha.26.1
+- Strapi 3.0.0-alpha.24.1
 - SQLite
 - React 16.8.6 by `create-react-app` _(ejected)_
 
@@ -24,6 +24,7 @@ Should be started on [localhost:1337](http://localhost:1337/).
 
 ## TODO: frontend
 - [x] redux / redux-thunk
+- [ ] All requests should be moved to actions
 - [ ] Relations: **employee -> boss** | Ability to select the boss for the employee (for the **boss** role only?)
 - [x] Login form for _withAuth HOC_ | Token will be set to cookies as `jwt`
 - [ ] socket.io for content updating

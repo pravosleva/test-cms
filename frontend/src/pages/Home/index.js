@@ -1,37 +1,32 @@
 import React from 'react';
-import { compose, withStateHandlers, withHandlers, lifecycle } from 'recompose';
+import { compose, lifecycle } from 'recompose';
 import {
   // Button,
   List, Card, Avatar,
 } from 'antd';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+// import { withUsers } from '../../containers';
+import { updateUsers } from '../../actions/users';
+
+const mapStateToProps = ({ users }) => ({
+  users: users.items
+});
 const Home = compose(
-  withStateHandlers((
-    initialState = {
-      users: null // Will be set as Array
-    }) => ({
-      users: initialState.users
-    }),
-    {
-      setFieldValue: prevState => (fieldName, value) => ({
-        ...prevState,
-        [fieldName]: value
-      }),
-    }
-  ),
-  withHandlers({
-    getUsersByRole: props => async role => {
+  // withUsers,
+  connect(mapStateToProps),
+  lifecycle({
+    async componentDidMount() {
+      // this.props.getUsersByRole('employee');
+
       const response = await fetch('/users')
         .then(res => res.json())
         .catch(err => console.log(err));
 
-      props.setFieldValue('users', [...response].filter(u => u.companyrole === role));
-    }
-  }),
-  lifecycle({
-    componentDidMount() {
-      this.props.getUsersByRole('employee');
+      if (response) {
+        this.props.dispatch(updateUsers(response));
+      }
     }
   })
 )(({
@@ -44,7 +39,7 @@ const Home = compose(
       users && users.length > 0
       ? (
         <Card
-          title='Отображены сотрудники с ролью employee'
+          title='Отображены все сотрудники'
         >
           <List
             itemLayout="horizontal"
@@ -60,7 +55,15 @@ const Home = compose(
                 <List.Item.Meta
                   avatar={<Avatar src={item.photo} />}
                   title={<Link to={`/info/${item.id}`}>{item.title}</Link>}
-                  description={item.bossInfo ? <div>Руководитель: {item.bossInfo.id || 'no id'}</div> : 'Руководитель не назначен'}
+                  description={
+                    <div onClick={() => console.log(item.id)}>
+                      {
+                        item.bossInfo
+                        ? <div>Руководитель: {item.bossInfo.id || `Поле id не найдено! bossInfo is ${JSON.stringify(item.bossInfo)}`}</div>
+                        : `bossInfo is ${JSON.stringify(item.bossInfo)}`
+                      }
+                    </div>
+                  }
                 />
               </List.Item>
             )}

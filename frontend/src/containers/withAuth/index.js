@@ -8,7 +8,7 @@ import { withCookies } from 'react-cookie';
 
 import LoginForm from './LoginForm';
 
-import { updateUserInfo } from '../../actions';
+import { updateUserInfo } from '../../actions/user-info';
 
 
 const mapStateToProps = ({ user }) => ({
@@ -110,8 +110,8 @@ const withAuth = ComposedComponent => compose(
                 <LoginForm key={Math.random()} />
               ];
               default:
-                // return [
-                //   <div key={Math.random()}>
+                // return (
+                //   <div>
                 //     {
                 //       props.user.infoResponse.message
                 //       ? (
@@ -121,7 +121,7 @@ const withAuth = ComposedComponent => compose(
                 //       ) : 'No message'
                 //     }
                 //   </div>
-                // ];
+                // );
                 return null;
             }
           })(props.user.infoResponse.statusCode)}
