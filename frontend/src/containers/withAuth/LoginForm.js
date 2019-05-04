@@ -2,12 +2,11 @@ import React from 'react';
 import {
   Form, Icon, Input, Button,
 } from 'antd';
-import axios from 'axios';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withCookies } from 'react-cookie';
 
-import { updateUserInfo } from '../../actions/user-info';
+import { tryToLogin } from '../../actions/user-info';
 import { getUsersAndSetToStore } from '../../actions/users';
 
 
@@ -26,43 +25,19 @@ class HorizontalLoginForm extends React.Component {
     this.props.form.validateFields(async (err, { userName, password }) => {
       if (!err) {
         // console.log('Received values of form: ', { userName, password });
-
-        const response = await axios({
-            method: 'post',
-            url: '/auth/local',
-            data: { identifier: userName, password },
-            validateStatus: function (status) {
-              return status < 500; // Reject only if the status code is greater than or equal to 500
-            }
+        this.props.dispatch(tryToLogin({ userName, password }))
+          .then(jwt => {
+            this.props.cookies.set(
+              'jwt',
+              jwt,
+              {
+                path: '/',
+                expires: new Date(Date.now() + 3600000 * 0.5), // 3600000 * 24 * 1 - One day
+              },
+            );
           })
-          .then(res => res.data)
-          .catch(err => {
-            // console.warn(err);
-            return ({
-              error: 'Request failed!',
-              statusCode: err.response.status,
-              message: err.response.data
-            });
-          });
-
-        // console.log(response);
-        if (response && response.user) {
-          this.props.dispatch(updateUserInfo(response.user));
-        }
-        else if (response) {
-          this.props.dispatch(updateUserInfo(response));
-        }
-        if (response && response.jwt) {
-          this.props.cookies.set(
-            'jwt',
-            response.jwt,
-            {
-              path: '/',
-              expires: new Date(Date.now() + 3600000 * 0.5), // 3600000 * 24 * 1 - One day
-            },
-          );
-          return Promise.resolve();
-        }
+          .catch(err => console.log(err));
+        return Promise.resolve();
       }
       return Promise.reject();
     });
@@ -82,7 +57,7 @@ class HorizontalLoginForm extends React.Component {
         layout="inline"
         onSubmit={(e) => {
           this.handleSubmit(e)
-            .then(async () => {
+            .then(() => {
               this.props.dispatch(getUsersAndSetToStore());
             })
             .catch(err => {

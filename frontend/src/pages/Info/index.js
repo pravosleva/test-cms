@@ -5,12 +5,22 @@ import { compose, withStateHandlers, withHandlers, lifecycle } from 'recompose';
 import {
   Card,
   // Icon,
-  // Avatar
+  // Avatar,
+  notification,
 } from 'antd';
 
 import ArrowBackSVG from '../../components/SVG/ArrowBackSVG';
 
 const { Meta } = Card;
+const openNotification = ({ message, description }) => {
+  notification.open({
+    message,
+    description,
+    onClick: () => {
+      console.log('Notification Clicked!');
+    },
+  });
+};
 
 const Info = compose(
   withRouter,
@@ -30,10 +40,18 @@ const Info = compose(
   withHandlers({
     getInfo: props => async role => {
       const response = await fetch(`/users/${props.match.params.id}`)
+        .then(res => {
+          if (res.status === 200) {
+            openNotification({
+              message: 'Info received',
+              description: 'Success',
+            });
+          }
+
+          return res;
+        })
         .then(res => res.json())
         .catch(err => console.log(err));
-
-      // console.log(response);
 
       props.setFieldValue('infoResponse', response);
     }

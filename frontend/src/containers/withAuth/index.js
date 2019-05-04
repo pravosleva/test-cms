@@ -2,13 +2,11 @@
 import React, { Fragment } from 'react';
 import { compose, withHandlers, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { Alert } from 'antd';
 import { withCookies } from 'react-cookie';
 
 import LoginForm from './LoginForm';
-
-import { updateUserInfo } from '../../actions/user-info';
+import { getMyUserInfoAndSetToStore } from '../../actions/user-info';
 
 
 const mapStateToProps = ({ user }) => ({
@@ -28,46 +26,17 @@ const withAuth = ComposedComponent => compose(
       return props.cookies.get(cookieName);
     }
   }),
-  withHandlers({
-    setResponse: props => res => {
-      props.dispatch(updateUserInfo(res));
-    }
-  }),
-  withHandlers({
-    getMe: props => async () => {
-      const response = await axios({
-        method: 'get',
-        url: '/users/me',
-        headers: { 'Authorization': `Bearer ${props.getCookieByName('jwt')}` },
-        validateStatus: function (status) {
-          return status >= 200 && status < 500;
-        },
-      })
-        .then(res => res.data)
-        .catch(err => {
-          console.warn(err);
-          return ({
-            error: 'Request failed!',
-            statusCode: err.response.status,
-            message: err.response.data
-          });
-        });
-
-      props.setResponse(response);
-    },
-  }),
   lifecycle({
     componentDidMount() {
-      this.props.getMe();
+      this.props.dispatch(getMyUserInfoAndSetToStore({ jwt: this.props.getCookieByName('jwt') }));
     },
   })
 )(props => (
   <Fragment>
     {/*
       props.user.infoResponse
-      ? (
-        <pre>{JSON.stringify(props.user.infoResponse)}</pre>
-      ) : <em>No infoResponse in store</em>
+      ? <pre>{JSON.stringify(props.user.infoResponse)}</pre>
+      : <em>No infoResponse in store</em>
     */}
 
     {/* 1. Response was not received yet */}
