@@ -1,5 +1,9 @@
 # TEST CMS
 
+## Demo
+
+![gif](./img/test-cms-demo-1.gif)
+
 ## Stack
 - Strapi 3.0.0-alpha.24.1
 - SQLite

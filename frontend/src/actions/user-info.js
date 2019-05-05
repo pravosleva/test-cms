@@ -42,7 +42,7 @@ export const tryToLogin = ({ userName, password }) => async dispatch => {
   if (response && response.jwt) {
     return Promise.resolve(response.jwt);
   }
-  return Promise.reject();
+  return Promise.reject(response);
 };
 
 export const getMyUserInfoAndSetToStore = ({ jwt }) => async dispatch => {

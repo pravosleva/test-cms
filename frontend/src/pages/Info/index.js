@@ -12,16 +12,6 @@ import {
 import ArrowBackSVG from '../../components/SVG/ArrowBackSVG';
 
 const { Meta } = Card;
-const openNotification = ({ message, description }) => {
-  notification.open({
-    message,
-    description,
-    onClick: () => {
-      console.log('Notification Clicked!');
-    },
-  });
-};
-
 const Info = compose(
   withRouter,
   withStateHandlers((
@@ -41,17 +31,30 @@ const Info = compose(
     getInfo: props => async role => {
       const response = await fetch(`/users/${props.match.params.id}`)
         .then(res => {
-          if (res.status === 200) {
-            openNotification({
-              message: 'Info received',
-              description: 'Success',
+          if (res.status !== 200) {
+            notification.warning({
+              message: `Respose status= ${response.status}`,
+              description: 'Click this msg and see console',
+              onClick: () => {
+                console.log(res);
+              },
             });
           }
 
           return res;
         })
         .then(res => res.json())
-        .catch(err => console.log(err));
+        .catch(err => {
+          notification.error({
+            message: `Respose status= ${err.status}`,
+            description: 'Click this msg and see console',
+            onClick: () => {
+              console.log(err);
+            },
+          });
+
+          return err;
+        });
 
       props.setFieldValue('infoResponse', response);
     }

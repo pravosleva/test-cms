@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Form, Icon, Input, Button,
+  Form, Icon, Input, Button, notification,
 } from 'antd';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -26,6 +26,15 @@ class HorizontalLoginForm extends React.Component {
       if (!err) {
         // console.log('Received values of form: ', { userName, password });
         this.props.dispatch(tryToLogin({ userName, password }))
+          .then(res => {
+            notification.success({
+              message: `Logged as ${userName}`,
+              description: 'You\'re welcome',
+              onClick: () => console.log(res),
+            });
+
+            return res;
+          })
           .then(jwt => {
             this.props.cookies.set(
               'jwt',
@@ -36,7 +45,17 @@ class HorizontalLoginForm extends React.Component {
               },
             );
           })
-          .catch(err => console.log(err));
+          .catch(res => {
+            notification.error({
+              message: res.error
+                ? typeof res.error === 'string'
+                  ? res.error
+                  : JSON.stringify(res.error)
+                : 'Sorry',
+              description: res.message ? res.message : 'You could not be logged',
+              onClick: () => console.log(res),
+            });
+          });
         return Promise.resolve();
       }
       return Promise.reject();
