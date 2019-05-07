@@ -5,7 +5,7 @@ import Routes from './routes';
 import {
   withMaxWidthContainer,
   // withUsers,
-  withAuth,
+  // withAuth, // Обернул каждый из компонентов, требующий авторизации
 } from './containers';
 
 function App() {
@@ -19,5 +19,5 @@ function App() {
 export default compose(
   withMaxWidthContainer,
   // withUsers,
-  withAuth,
+  // withAuth,
 )(App);

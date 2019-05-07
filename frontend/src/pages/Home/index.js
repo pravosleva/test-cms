@@ -7,14 +7,16 @@ import {
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// import { withUsers } from '../../containers';
+import {
+  withAuth,
+} from '../../containers';
 import { getUsersAndSetToStore } from '../../actions/users';
 
 const mapStateToProps = ({ users }) => ({
   users: users.items
 });
 const Home = compose(
-  // withUsers,
+  withAuth,
   connect(mapStateToProps),
   lifecycle({
     componentDidMount() {

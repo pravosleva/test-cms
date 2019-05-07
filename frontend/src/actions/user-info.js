@@ -34,6 +34,7 @@ export const tryToLogin = ({ userName, password }) => async dispatch => {
   // console.log(response);
   if (response && response.user) {
     dispatch(updateUserInfo(response.user));
+    dispatch(userActions.fillTimestamp((() => new Date())().getTime()));
   }
   else if (response) {
     dispatch(updateUserInfo(response));
@@ -65,4 +66,8 @@ export const getMyUserInfoAndSetToStore = ({ jwt }) => async dispatch => {
     });
 
   dispatch(updateUserInfo(response));
+  // console.log();
+  if (response.role) {
+    dispatch(userActions.fillTimestamp((() => new Date())().getTime()));
+  }
 };

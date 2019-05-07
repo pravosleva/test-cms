@@ -11,6 +11,8 @@ import { getMyUserInfoAndSetToStore } from '../../actions/user-info';
 
 const mapStateToProps = ({ user }) => ({
   user,
+  timestamp: user.timestamp,
+  maxTimestampAge: user.maxTimestampAge
 });
 
 const withAuth = ComposedComponent => compose(
@@ -28,7 +30,12 @@ const withAuth = ComposedComponent => compose(
   }),
   lifecycle({
     componentDidMount() {
-      this.props.dispatch(getMyUserInfoAndSetToStore({ jwt: this.props.getCookieByName('jwt') }));
+      if (
+        !this.props.timestamp ||
+        (() => new Date().getTime())() > this.props.timestamp + this.props.maxTimestampAge
+      ) {
+        this.props.dispatch(getMyUserInfoAndSetToStore({ jwt: this.props.getCookieByName('jwt') }));
+      }
     },
   })
 )(props => (

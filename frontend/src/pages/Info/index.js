@@ -9,10 +9,14 @@ import {
   notification,
 } from 'antd';
 
+import {
+  withAuth,
+} from '../../containers';
 import ArrowBackSVG from '../../components/SVG/ArrowBackSVG';
 
 const { Meta } = Card;
 const Info = compose(
+  withAuth,
   withRouter,
   withStateHandlers((
     initialState = {
@@ -30,30 +34,28 @@ const Info = compose(
   withHandlers({
     getInfo: props => async role => {
       const response = await fetch(`/users/${props.match.params.id}`)
-        .then(res => {
-          if (res.status !== 200) {
-            notification.warning({
-              message: `Respose status= ${response.status}`,
-              description: 'Click this msg and see console',
-              onClick: () => {
-                console.log(res);
-              },
-            });
+        .then(originRes => {
+          if (originRes.status !== 200) {
+            throw originRes;
           }
 
-          return res;
+          return originRes;
         })
-        .then(res => res.json())
+        .then(originRes => originRes.json())
         .catch(err => {
           notification.error({
             message: `Respose status= ${err.status}`,
-            description: 'Click this msg and see console',
+            description: err.statusText,
             onClick: () => {
               console.log(err);
             },
           });
 
-          return err;
+          return {
+            statusCode: err.status,
+            message: err.statusText,
+            error: err.url
+          };
         });
 
       props.setFieldValue('infoResponse', response);
