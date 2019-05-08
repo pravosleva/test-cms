@@ -55,7 +55,7 @@ const Home = compose(
             renderItem={item => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar src={item.src} />}
+                  avatar={<Avatar size={64} src={item.src} />}
                   title={<Link to={`/info/${item.id}`}>{item.title}</Link>}
                   description={
                     <div onClick={() => console.log(item.id)}>
