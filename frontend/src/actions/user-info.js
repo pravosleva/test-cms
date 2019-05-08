@@ -57,7 +57,7 @@ export const getMyUserInfoAndSetToStore = ({ jwt }) => async dispatch => {
   })
     .then(res => res.data)
     .catch(err => {
-      console.warn(err);
+      // console.warn(err);
       return ({
         error: 'Request failed!',
         statusCode: err.response.status,

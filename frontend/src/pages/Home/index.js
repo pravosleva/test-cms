@@ -3,6 +3,7 @@ import { compose, lifecycle } from 'recompose';
 import {
   // Button,
   List, Card, Avatar,
+  notification,
 } from 'antd';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -20,7 +21,14 @@ const Home = compose(
   connect(mapStateToProps),
   lifecycle({
     componentDidMount() {
-      this.props.dispatch(getUsersAndSetToStore());
+      this.props.dispatch(getUsersAndSetToStore())
+        // .then(() => {})
+        .catch(err => {
+          notification.error({
+            message: (err.statusCode ? `${err.statusCode} ` : '') + (err.error || 'Fuckup'),
+            description: err.message || 'Request failed',
+          });
+        });
     }
   })
 )(({
