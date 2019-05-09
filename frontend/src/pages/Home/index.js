@@ -60,8 +60,8 @@ const Home = compose(
                   description={
                     <div onClick={() => console.log(item.id)}>
                       {
-                        item.bossInfo
-                        ? <div>Руководитель: {item.bossInfo.id || `Поле id не найдено! bossInfo is ${JSON.stringify(item.bossInfo)}`}</div>
+                        item.bossInfo && item.bossInfo.id
+                        ? <div>Руководитель: {item.bossInfo.id}</div>
                         : `bossInfo is ${JSON.stringify(item.bossInfo)}`
                       }
                     </div>

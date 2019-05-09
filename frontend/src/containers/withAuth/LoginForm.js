@@ -27,15 +27,24 @@ class HorizontalLoginForm extends React.Component {
         // console.log('Received values of form: ', { userName, password });
         this.props.dispatch(tryToLogin({ userName, password }))
           .then(res => {
-            notification.success({
-              message: `Logged as ${userName}`,
-              description: 'You\'re welcome',
-              onClick: () => console.log(res),
-            });
+            if (res && res.user && res.user.username) {
+              notification.success({
+                message: `Logged as ${res.user.username}`,
+                description: 'You\'re welcome',
+                onClick: () => console.log(res),
+              });
+            }
+            else {
+              notification.error({
+                message: 'res.user.username was not received!',
+                description: 'Click this message to see res in console...',
+                onClick: () => console.log(res),
+              });
+            }
 
             return res;
           })
-          .then(jwt => {
+          .then(({ jwt }) => {
             this.props.cookies.set(
               'jwt',
               jwt,

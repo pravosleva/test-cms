@@ -79,7 +79,7 @@ const Info = compose(
           // cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
           cover={
             <img
-              alt="example"
+              alt="img"
               src={
                 infoResponse && infoResponse.photo && infoResponse.photo.url
                 ? infoResponse.photo.url
@@ -93,8 +93,8 @@ const Info = compose(
             // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
             // title={infoResponse.username}
             description={
-              infoResponse.bossInfo
-              ? <div>Руководитель: {infoResponse.bossInfo.id || `Поле id не найдено! bossInfo is ${JSON.stringify(infoResponse.bossInfo)}`}</div>
+              infoResponse.bossInfo && infoResponse.bossInfo.id
+              ? <div>Руководитель: {infoResponse.bossInfo.id}</div>
               : `bossInfo is ${JSON.stringify(infoResponse.bossInfo)}`
             }
           />

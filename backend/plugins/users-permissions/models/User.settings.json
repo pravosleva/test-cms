@@ -49,7 +49,7 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "companyrole": {
+    "companyRole": {
       "default": "employee",
       "type": "enumeration",
       "enum": [

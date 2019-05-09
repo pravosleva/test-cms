@@ -22,7 +22,7 @@ Should be started on [localhost:1337](http://localhost:1337/).
 
 ## TODO: backend
 - [x] CRUD
-- [x] `User.companyrole` _as string_ `employee|boss`, _employee by default_
+- [x] `User.companyRole` _as string_ `employee|boss|admin`, _employee by default_
 - [x] `User.bossInfo` _as json (will be used for employee role)_
 - [ ] socket.io for content updating
 
