@@ -24,7 +24,7 @@ export const getUsersAndSetToStore = () => async dispatch => {
       })
       .then(res => res.data)
       .catch(err => {
-        throw ({
+        return ({
           statusCode: err.response.status,
           message: err.response.data,
           error: err.error || 'Request failed'
